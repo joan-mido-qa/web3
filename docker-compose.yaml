@@ -1,0 +1,16 @@
+services:
+  node:
+    image: trufflesuite/ganache:latest
+    volumes:
+      - ./db:/db
+    ports:
+      - 8545:8545
+    command: -m "myth like bonus scare over problem client lizard pioneer submit female collect" -n -i 100 --database.dbPath
+  explorer:
+    image: alethio/ethereum-lite-explorer:latest
+    environment:
+      - APP_NODE_URL=http://127.0.0.1:8545
+    ports:
+      - 80:80
+    depends_on:
+      - node

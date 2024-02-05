@@ -1,0 +1,22 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git | Checkout
+        uses: actions/checkout@v4
+
+      - name: Python | Setup
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Pre-commit | Run
+        uses: pre-commit/action@v3.0.1
