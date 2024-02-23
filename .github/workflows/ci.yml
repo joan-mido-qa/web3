@@ -39,21 +39,14 @@ jobs:
       - name: Docker | Setup
         uses: docker/setup-buildx-action@v3
 
-      - name: Docker Compose | Setup
-        run: |
-          apt-get install docker-compose-plugin
-
       - name: Docker Compose | Up
-        run: |
-          docker compose up
+        uses: isbang/compose-action@v1.5.1
+        with:
+          compose-file: docker-compose.yaml
 
       - name: Playwright | Run Tests
         run: |
           bun run playwright test
-
-      - name: Docker Compose | Down
-        run: |
-          docker compose down
 
       - name: Artifact | Upload Results
         uses: actions/upload-artifact@v3
