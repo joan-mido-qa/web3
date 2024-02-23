@@ -19,8 +19,14 @@ $ pip install pre-commit
 $ pre-commit install
 ```
 
-Run the development server:
+Run Ganache + Server:
 
 ```bash
-$ bun dev
+$ docker compose up
+```
+
+Run the end-to-end:
+
+```bash
+$ bun run playwright test
 ```
