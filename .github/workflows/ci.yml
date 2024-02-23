@@ -46,6 +46,7 @@ jobs:
 
       - name: Playwright | Run Tests
         run: |
+          bun run playwright install
           bun run playwright test
 
       - name: Artifact | Upload Results
