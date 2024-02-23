@@ -1,5 +1,3 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
 /.pnp
@@ -12,6 +10,7 @@
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+e2e/*
 
 # next.js
 /.next/
@@ -41,3 +40,28 @@ next-env.d.ts
 
 # python
 venv
+
+# docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# git
+.git
+.gitignore
+.github/*
+
+# lint
+.eslingignore
+.eslintrc.json
+.prettierignore
+.prettierrc
+
+# environment
+.vscode
+.env
+.editorconfig
+.idea
+
+# others
+README.md

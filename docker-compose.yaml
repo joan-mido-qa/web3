@@ -1,16 +1,27 @@
 services:
-  node:
+  ganache:
     image: trufflesuite/ganache:latest
-    volumes:
-      - ./db:/db
     ports:
       - 8545:8545
-    command: -m "myth like bonus scare over problem client lizard pioneer submit female collect" -n -i 100 --database.dbPath
+    command: -m "myth like bonus scare over problem client lizard pioneer submit female collect" -n -i 100
+
+  next:
+    image: next/web3:latest
+    build: .
+    ports:
+      - 3000:3000
+    environment:
+      - WS_PATH=ws://ganache:8545
+    depends_on:
+      - ganache
+
   explorer:
     image: alethio/ethereum-lite-explorer:latest
-    environment:
-      - APP_NODE_URL=http://127.0.0.1:8545
     ports:
       - 80:80
+    environment:
+      - APP_NODE_URL=http://ganache:8545
     depends_on:
-      - node
+      - ganache
+    profiles:
+      - debug

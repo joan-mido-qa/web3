@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
-import AccountsProvider from "./providers";
-import { ProtectedRoutes } from "./middleware";
 
 const roboto = Roboto({ weight: "400", subsets: ["latin"] });
 
@@ -18,11 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={roboto.className}>
-        <AccountsProvider>
-          <ProtectedRoutes>{children}</ProtectedRoutes>
-        </AccountsProvider>
-      </body>
+      <body className={roboto.className}>{children}</body>
     </html>
   );
 }
