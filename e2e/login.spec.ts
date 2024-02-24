@@ -36,7 +36,7 @@ const getAccounts = (page: Page) =>
     );
 
 test("use mnemonic and passphrase to login", async ({ page }) => {
-  await page.goto("/home");
+  await page.goto("/wallet");
 
   for (const [i, word] of mnemonic.split(" ").entries()) {
     await page.getByPlaceholder(`Word ${i + 1}`, { exact: true }).fill(word);
@@ -49,7 +49,7 @@ test("use mnemonic and passphrase to login", async ({ page }) => {
 });
 
 test("use passphrase to login", async ({ page }) => {
-  await page.goto("/home");
+  await page.goto("/wallet");
 
   for (const [i, word] of mnemonic.split(" ").entries()) {
     await page.getByPlaceholder(`Word ${i + 1}`, { exact: true }).fill(word);

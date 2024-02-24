@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Wallet from "web3-eth-accounts";
-import Unlock from "./components/unlock";
-import Accounts from "./components/accounts";
+import Unlock from "./components/Unlock";
+import Web3Wallet from "./components/Web3Wallet";
 import Web3, { WebSocketProvider } from "web3";
 
 export default function Home() {
@@ -51,7 +51,7 @@ export default function Home() {
           onUnlock={(accounts) => setAccounts(accounts)}
         />
       ) : (
-        <Accounts web3={web3} accounts={accounts!} />
+        <Web3Wallet web3={web3} accounts={accounts!} />
       )}
     </main>
   );

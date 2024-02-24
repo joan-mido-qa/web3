@@ -11,7 +11,7 @@ interface Props {
   accounts: Wallet.Wallet;
 }
 
-export default function Accounts({ web3, accounts }: Props) {
+export default function Web3Wallet({ web3, accounts }: Props) {
   const [isSendDisplayed, setDisplaySend] = useState<boolean>(false);
 
   const [balance, setBalance] = useState<string>("0");
