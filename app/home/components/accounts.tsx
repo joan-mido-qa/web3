@@ -117,10 +117,10 @@ function SendModal({ web3, fromAccount, onSend }: SendProps) {
 
     const gas = await web3.eth.estimateGas(transaction);
 
-    const signedTransaction = await web3.eth.accounts.signTransaction(
-      { ...transaction, gas },
-      fromAccount.privateKey
-    );
+    const signedTransaction = await fromAccount.signTransaction({
+      ...transaction,
+      gas,
+    });
 
     await web3.eth.sendSignedTransaction(signedTransaction.rawTransaction);
 

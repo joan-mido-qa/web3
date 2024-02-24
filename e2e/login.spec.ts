@@ -1,9 +1,14 @@
-import { expect, test } from "@playwright/test";
+import { Page, expect, test } from "@playwright/test";
 
 const mnemonic =
   "myth like bonus scare over problem client lizard pioneer submit female collect";
 
-const addresses = [
+const toLowerSorted = (array: (string | null)[]) =>
+  array
+    .map((value) => (value || "").toLowerCase())
+    .sort((a, b) => (a! > b! ? -1 : 1));
+
+const accounts = toLowerSorted([
   "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1",
   "0xffcf8fdee72ac11b5c542428b35eef5769c409f0",
   "0x22d491bde2303f2f43325b2108d26f1eaba1e32b",
@@ -14,10 +19,21 @@ const addresses = [
   "0x28a8746e75304c0780e011bed21c72cd78cd535e",
   "0xaca94ef8bd5ffee41947b4585a84bda5a3d3da6e",
   "0x1df62f291b2e969fb0849d99d9ce41e2f137006e",
-];
+]);
 
-const short_address = (address: string) =>
-  `${address.substring(0, 5)}...${address.substring(address.length - 5)}`;
+const getAccounts = (page: Page) =>
+  expect(page.locator("select"))
+    .toBeVisible()
+    .then(() =>
+      page
+        .locator("select")
+        .locator("option")
+        .all()
+        .then((options) =>
+          Promise.all(options.map((option) => option.getAttribute("value")))
+        )
+        .then((accs) => toLowerSorted(accs))
+    );
 
 test("use mnemonic and passphrase to login", async ({ page }) => {
   await page.goto("/home");
@@ -29,13 +45,23 @@ test("use mnemonic and passphrase to login", async ({ page }) => {
   await page.getByPlaceholder("Passphrase").fill("");
   await page.getByRole("button", { name: "Login" }).click();
 
-  await expect(page.locator("select")).toBeVisible();
+  expect(await getAccounts(page)).toEqual(accounts);
+});
 
-  const accounts = page.locator("select").locator("option");
+test("use passphrase to login", async ({ page }) => {
+  await page.goto("/home");
 
-  for (const [i, account] of (await accounts.all()).entries()) {
-    expect((await account.innerText()).toLowerCase()).toBe(
-      short_address(addresses[i])
-    );
+  for (const [i, word] of mnemonic.split(" ").entries()) {
+    await page.getByPlaceholder(`Word ${i + 1}`, { exact: true }).fill(word);
   }
+
+  await page.getByPlaceholder("Passphrase").fill("secure-password");
+  await page.getByRole("button", { name: "Login" }).click();
+
+  await page.reload({ timeout: 50000 });
+
+  await page.getByPlaceholder("Passphrase").fill("secure-password");
+  await page.getByRole("button", { name: "Unlock" }).click();
+
+  expect(await getAccounts(page)).toEqual(accounts);
 });

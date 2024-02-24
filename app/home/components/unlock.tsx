@@ -49,8 +49,7 @@ export default function Unlock({ web3, isLogged, onUnlock }: Props) {
       const seed = await bip39.mnemonicToSeed(
         Array.from(mnemonic.values())
           .reduce((mnemonic, word) => `${mnemonic} ${word}`, "")
-          .trim(),
-        passphrase
+          .trim()
       );
 
       const hdKey = HDKey.fromMasterSeed(seed).derive("m/44'/60'/0'/0");
