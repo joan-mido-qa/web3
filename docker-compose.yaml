@@ -3,7 +3,10 @@ services:
     image: trufflesuite/ganache:latest
     ports:
       - 8545:8545
-    command: -m "myth like bonus scare over problem client lizard pioneer submit female collect" -n -i 100
+    command:
+      - -m
+      - myth like bonus scare over problem client lizard pioneer submit female collect
+      - -n
 
   next:
     image: next/web3:latest

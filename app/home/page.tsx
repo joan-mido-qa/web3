@@ -30,7 +30,8 @@ export default function Home() {
 
   useEffect(
     () => setWalletSaved(localStorage.getItem("web3js_wallet") != null),
-    [setWalletSaved]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
   function isUnlocked(): boolean {
