@@ -23,8 +23,11 @@ jobs:
         uses: pre-commit/action@v3.0.1
 
   test:
-    name: End-to-End
+    name: "End-to-End - Browser: ${{ matrix.browser }}"
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        browser: [chromium, firefox]
     steps:
       - name: Git | Checkout
         uses: actions/checkout@v4
@@ -46,13 +49,13 @@ jobs:
 
       - name: Playwright | Run Tests
         run: |
-          bun run playwright install
-          bun run playwright test
+          bun run playwright install --with-deps ${{ matrix.browser }}
+          bun run playwright test --project ${{ matrix.browser }}
 
       - name: Artifact | Upload Results
         uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.browser }}
           path: playwright-report/
           retention-days: 1
