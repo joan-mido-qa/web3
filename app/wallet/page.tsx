@@ -6,7 +6,7 @@ import Unlock from "./components/Unlock";
 import Web3Wallet from "./components/Web3Wallet";
 import Web3, { WebSocketProvider } from "web3";
 
-export default function Home() {
+export default function UserWallet() {
   const [isConnected, setConnection] = useState<boolean>();
   const [isWalletSaved, setWalletSaved] = useState<boolean>();
   const [accounts, setAccounts] = useState<Wallet.Wallet>();

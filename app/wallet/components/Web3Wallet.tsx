@@ -45,7 +45,9 @@ export default function Web3Wallet({ web3, accounts }: Props) {
   return (
     <>
       <div className='flex flex-col text-white justify-around items-center h-[250px]'>
-        <span className='text-5xl'>{balance} ETH</span>
+        <span id='eth-balance' className='text-5xl'>
+          {balance} ETH
+        </span>
         <select
           onChange={(e) => setAccount(fromAddress(e.target.value))}
           className='m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none'
@@ -63,6 +65,7 @@ export default function Web3Wallet({ web3, accounts }: Props) {
         <div className='flex'>
           <div className='flex flex-col items-center mx-2'>
             <button
+              id='send-button'
               onClick={() => setDisplaySend(true)}
               className='bg-blue-500 hover:bg-blue-600 text-white text-l p-2 m-2 rounded-full'
             >
