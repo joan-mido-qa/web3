@@ -42,7 +42,7 @@ test("send a trabsaction", async ({ page }) => {
       async () => toNumber(await page.locator("[id=eth-balance]").innerText()),
       { intervals: [1000], timeout: 60000 }
     )
-    .toBeLessThan(fromInitBalance);
+    .toBeCloseTo(fromInitBalance - 1);
 
   const toBalance = await getAccountBalance(page, toAddress);
 
