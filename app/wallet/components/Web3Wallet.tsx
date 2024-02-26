@@ -19,12 +19,14 @@ export default function Web3Wallet({ web3, accounts }: Props) {
 
   const updateBalance = () =>
     web3.eth
-      .getBalance(account.address)
+      .getBalance(account.address, "latest")
       .then((balance) => setBalance(Web3.utils.fromWei(balance, "ether")));
 
   useEffect(() => {
     const sub = web3.eth.subscribe("newBlockHeaders").then((sub) => {
       sub.on("data", async () => await updateBalance());
+      // Avoid Unhandled Errors
+      sub.on("error", () => {});
       return sub;
     });
 
