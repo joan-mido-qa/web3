@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import Web3 from "web3";
 import Wallet from "web3-eth-accounts";
 import { GrTransaction } from "react-icons/gr";
@@ -17,14 +17,23 @@ export default function Web3Wallet({ web3, accounts }: Props) {
   const [balance, setBalance] = useState<string>("0");
   const [account, setAccount] = useState<Wallet.Web3Account>(accounts.get(0)!);
 
-  const updateBalance = () =>
-    web3.eth
-      .getBalance(account.address, "latest")
-      .then((balance) => setBalance(Web3.utils.fromWei(balance, "ether")));
+  const prevBalanceRef = useRef("0");
+
+  const updateBalance = useCallback(
+    () =>
+      web3.eth.getBalance(account.address, "latest").then((balance) => {
+        const ethBalance = Web3.utils.fromWei(balance, "ether");
+        if (ethBalance !== prevBalanceRef.current) {
+          prevBalanceRef.current = ethBalance;
+          setBalance(ethBalance);
+        }
+      }),
+    [account]
+  );
 
   useEffect(() => {
     const sub = web3.eth.subscribe("newBlockHeaders").then((sub) => {
-      sub.on("data", async () => await updateBalance());
+      sub.on("data", () => updateBalance());
       // Avoid Unhandled Errors
       sub.on("error", () => {});
       return sub;
@@ -33,13 +42,11 @@ export default function Web3Wallet({ web3, accounts }: Props) {
     return () => {
       sub.then((sub) => sub.unsubscribe());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [updateBalance]);
 
   useEffect(() => {
     updateBalance();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account]);
+  }, [updateBalance]);
 
   const fromAddress = (address: string) =>
     accounts.find((acc) => acc.address == address)!;

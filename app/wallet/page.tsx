@@ -30,7 +30,6 @@ export default function UserWallet() {
 
   useEffect(
     () => setWalletSaved(localStorage.getItem("web3js_wallet") != null),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
