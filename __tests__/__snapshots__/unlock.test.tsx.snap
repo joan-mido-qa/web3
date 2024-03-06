@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders mnemonic login page unchanged 1`] = `
+<div>
+  <div
+    class="text-white flex flex-col items-center justify-center"
+  >
+    <h1
+      class="text-4xl font-bold"
+    >
+      Wallet Access
+    </h1>
+    <p
+      class="mt-4 text-s"
+    >
+      Mnemonic & Password
+    </p>
+  </div>
+  <form
+    class="flex flex-col justify-around items-center w-[750px] h-[375px] p-2"
+  >
+    <div
+      class="flex flex-row justify-center items-center flex-wrap w-full"
+    >
+      <input
+        class="m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none baisis-[calc(100%/3) - 5]"
+        placeholder="Word 1"
+        type="text"
+        value=""
+      />
+      <input
+        class="m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none baisis-[calc(100%/3) - 5]"
+        placeholder="Word 2"
+        type="text"
+        value=""
+      />
+      <input
+        class="m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none baisis-[calc(100%/3) - 5]"
+        placeholder="Word 3"
+        type="text"
+        value=""
+      />
+      <input
+        class="m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none baisis-[calc(100%/3) - 5]"
+        placeholder="Word 4"
+        type="text"
+        value=""
+      />
+      <input
+        class="m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none baisis-[calc(100%/3) - 5]"
+        placeholder="Word 5"
+        type="text"
+        value=""
+      />
+      <input
+        class="m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none baisis-[calc(100%/3) - 5]"
+        placeholder="Word 6"
+        type="text"
+        value=""
+      />
+      <input
+        class="m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none baisis-[calc(100%/3) - 5]"
+        placeholder="Word 7"
+        type="text"
+        value=""
+      />
+      <input
+        class="m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none baisis-[calc(100%/3) - 5]"
+        placeholder="Word 8"
+        type="text"
+        value=""
+      />
+      <input
+        class="m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none baisis-[calc(100%/3) - 5]"
+        placeholder="Word 9"
+        type="text"
+        value=""
+      />
+      <input
+        class="m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none baisis-[calc(100%/3) - 5]"
+        placeholder="Word 10"
+        type="text"
+        value=""
+      />
+      <input
+        class="m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none baisis-[calc(100%/3) - 5]"
+        placeholder="Word 11"
+        type="text"
+        value=""
+      />
+      <input
+        class="m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none baisis-[calc(100%/3) - 5]"
+        placeholder="Word 12"
+        type="text"
+        value=""
+      />
+    </div>
+    <input
+      class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none"
+      placeholder="Passphrase"
+      type="text"
+      value=""
+    />
+    <button
+      class="bg-blue-500 py-1.5 px-8 text-white rounded-md hover:bg-blue-600 focus:outline-none"
+      type="submit"
+    >
+      Login
+    </button>
+  </form>
+</div>
+`;
+
+exports[`renders passphrase login page unchanged 1`] = `
+<div>
+  <div
+    class="justify-center items-center flex fixed inset-0 z-50 outline-none focus:outline-none"
+  >
+    <form
+      class="p-2 flex flex-row items-around bg-white rounded-md outline-none focus:outline-none"
+    >
+      <input
+        class="p-3 m-1 bg-gray-800 text-white rounded-md focus:outline-none"
+        placeholder="Passphrase"
+        type="text"
+        value=""
+      />
+      <button
+        class="bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-sm p-3 m-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        type="submit"
+      >
+        Unlock
+      </button>
+    </form>
+  </div>
+</div>
+`;

@@ -10,7 +10,8 @@
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-e2e/*
+__e2e__/*
+__tests__/*
 
 # next.js
 /.next/
