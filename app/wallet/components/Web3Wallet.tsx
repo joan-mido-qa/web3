@@ -8,14 +8,14 @@ import { GrDocumentUpload } from "react-icons/gr";
 
 interface Props {
   web3: Web3;
-  accounts: Wallet.Wallet;
+  wallet: Wallet.Wallet;
 }
 
-export default function Web3Wallet({ web3, accounts }: Props) {
+export default function Web3Wallet({ web3, wallet }: Props) {
   const [isSendDisplayed, setDisplaySend] = useState<boolean>(false);
 
   const [balance, setBalance] = useState<string>("0");
-  const [account, setAccount] = useState<Wallet.Web3Account>(accounts.get(0)!);
+  const [account, setAccount] = useState<Wallet.Web3Account>(wallet.get(0)!);
 
   const prevBalanceRef = useRef("0");
 
@@ -48,8 +48,7 @@ export default function Web3Wallet({ web3, accounts }: Props) {
     updateBalance();
   }, [updateBalance]);
 
-  const fromAddress = (address: string) =>
-    accounts.find((acc) => acc.address == address)!;
+  const fromAddress = (address: string) => wallet.find((acc) => acc.address == address)!;
 
   return (
     <>
@@ -61,12 +60,8 @@ export default function Web3Wallet({ web3, accounts }: Props) {
           onChange={(e) => setAccount(fromAddress(e.target.value))}
           className='m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none'
         >
-          {accounts.map((acc, i) => (
-            <option
-              key={`account-${i}`}
-              className='bg-gray-800'
-              value={acc.address}
-            >
+          {wallet.map((acc, i) => (
+            <option key={`account-${i}`} className='bg-gray-800' value={acc.address}>
               {`${acc.address.substring(0, 5)}...${acc.address.substring(acc.address.length - 5)}`}
             </option>
           ))}
@@ -90,13 +85,7 @@ export default function Web3Wallet({ web3, accounts }: Props) {
           </div>
         </div>
       </div>
-      {isSendDisplayed ? (
-        <SendModal
-          web3={web3}
-          fromAccount={account}
-          onSend={() => setDisplaySend(false)}
-        />
-      ) : null}
+      {isSendDisplayed ? <SendModal web3={web3} fromAccount={account} onSend={() => setDisplaySend(false)} /> : null}
     </>
   );
 }
@@ -114,10 +103,7 @@ function SendModal({ web3, fromAccount, onSend }: SendProps) {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const nonce = await web3.eth.getTransactionCount(
-      fromAccount.address,
-      "latest"
-    );
+    const nonce = await web3.eth.getTransactionCount(fromAccount.address, "latest");
     const gasPrice = await web3.eth.getGasPrice();
 
     const transaction = {
