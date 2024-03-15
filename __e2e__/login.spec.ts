@@ -9,9 +9,7 @@ const getAccounts = (page: Page) =>
         .locator("select")
         .locator("option")
         .all()
-        .then((options) =>
-          Promise.all(options.map((option) => option.getAttribute("value")))
-        )
+        .then((options) => Promise.all(options.map((option) => option.getAttribute("value"))))
         .then((accs) => toLowerSorted(accs))
     );
 

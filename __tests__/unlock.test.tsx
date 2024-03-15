@@ -15,15 +15,11 @@ afterAll(async () => {
 });
 
 test("renders mnemonic login page unchanged", async () => {
-  const { container } = render(
-    <Unlock web3={web3} isLogged={false} onUnlock={() => {}} />
-  );
+  const { container } = render(<Unlock web3={web3} isLogged={false} onUnlock={() => {}} />);
   expect(container).toMatchSnapshot();
 });
 
 test("renders passphrase login page unchanged", async () => {
-  const { container } = render(
-    <Unlock web3={web3} isLogged={true} onUnlock={() => {}} />
-  );
+  const { container } = render(<Unlock web3={web3} isLogged={true} onUnlock={() => {}} />);
   expect(container).toMatchSnapshot();
 });
