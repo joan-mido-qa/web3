@@ -13,9 +13,7 @@ const getAccountBalance = (page: Page, address: string) =>
     .then((balance) => toNumber(balance));
 
 test("send a transaction", async ({ page }) => {
-  const [fromAddress, toAddress] = accounts
-    .sort(() => 0.5 - Math.random())
-    .slice(0, 2);
+  const [fromAddress, toAddress] = accounts.sort(() => 0.5 - Math.random()).slice(0, 2);
 
   await page.goto("/wallet");
 
@@ -38,10 +36,10 @@ test("send a transaction", async ({ page }) => {
   // the Gas fee.
 
   await expect
-    .poll(
-      async () => toNumber(await page.locator("[id=eth-balance]").innerText()),
-      { intervals: [1000], timeout: 60000 }
-    )
+    .poll(async () => toNumber(await page.locator("[id=eth-balance]").innerText()), {
+      intervals: [1000],
+      timeout: 60000,
+    })
     .toBeCloseTo(fromInitBalance - 1);
 
   const toBalance = await getAccountBalance(page, toAddress);

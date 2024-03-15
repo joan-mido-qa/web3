@@ -35,9 +35,7 @@ export default function Unlock({ web3, isLogged, onUnlock }: Props) {
   }
 
   function getAccount(key: HDKey, index: number) {
-    return web3.eth.accounts.privateKeyToAccount(
-      key.deriveChild(index).privateKey!
-    );
+    return web3.eth.accounts.privateKeyToAccount(key.deriveChild(index).privateKey!);
   }
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -74,10 +72,7 @@ export default function Unlock({ web3, isLogged, onUnlock }: Props) {
         <h1 className='text-4xl font-bold'>Wallet Access</h1>
         <p className='mt-4 text-s'>Mnemonic & Password</p>
       </div>
-      <form
-        onSubmit={onSubmit}
-        className='flex flex-col justify-around items-center w-[750px] h-[375px] p-2'
-      >
+      <form onSubmit={onSubmit} className='flex flex-col justify-around items-center w-[750px] h-[375px] p-2'>
         <div className='flex flex-row justify-center items-center flex-wrap w-full'>
           {Array.from(mnemonic.entries()).map(([key, value]) => (
             <input
@@ -86,9 +81,7 @@ export default function Unlock({ web3, isLogged, onUnlock }: Props) {
               className='m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none baisis-[calc(100%/3) - 5]'
               key={`word-${key}`}
               value={value}
-              onChange={(e) =>
-                setMnemonic(new Map(mnemonic.set(key, e.target.value)))
-              }
+              onChange={(e) => setMnemonic(new Map(mnemonic.set(key, e.target.value)))}
               onPaste={(e) => onPaste(e)}
             />
           ))}

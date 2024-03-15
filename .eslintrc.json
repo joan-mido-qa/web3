@@ -9,10 +9,7 @@
   "plugins": ["@typescript-eslint", "prettier"],
   "parser": "@typescript-eslint/parser",
   "rules": {
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      { "ignoreRestSiblings": true }
-    ],
+    "@typescript-eslint/no-unused-vars": ["error", { "ignoreRestSiblings": true }],
     "react-hooks/exhaustive-deps": "off"
   }
 }
