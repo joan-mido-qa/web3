@@ -58,8 +58,7 @@ export default function Web3Wallet({ web3, wallet }: Props) {
         </span>
         <select
           onChange={(e) => setAccount(fromAddress(e.target.value))}
-          className='m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none'
-        >
+          className='m-[5px] py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none'>
           {wallet.map((acc, i) => (
             <option key={`account-${i}`} className='bg-gray-800' value={acc.address}>
               {`${acc.address.substring(0, 5)}...${acc.address.substring(acc.address.length - 5)}`}
@@ -71,8 +70,7 @@ export default function Web3Wallet({ web3, wallet }: Props) {
             <button
               id='send-button'
               onClick={() => setDisplaySend(true)}
-              className='bg-blue-500 hover:bg-blue-600 text-white text-l p-2 m-2 rounded-full'
-            >
+              className='bg-blue-500 hover:bg-blue-600 text-white text-l p-2 m-2 rounded-full'>
               <GrTransaction />
             </button>
             <span>Send</span>
@@ -130,8 +128,7 @@ function SendModal({ web3, fromAccount, onSend }: SendProps) {
       <div className='justify-center items-center flex fixed inset-0 z-50 outline-none focus:outline-none'>
         <form
           onSubmit={onSubmit}
-          className='p-2 flex flex-col items-around bg-white rounded-md outline-none focus:outline-none'
-        >
+          className='p-2 flex flex-col items-around bg-white rounded-md outline-none focus:outline-none'>
           <input
             placeholder='Address'
             type='text'
@@ -148,8 +145,7 @@ function SendModal({ web3, fromAccount, onSend }: SendProps) {
           />
           <button
             className='bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-sm p-3 m-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'
-            type='submit'
-          >
+            type='submit'>
             Send
           </button>
         </form>
