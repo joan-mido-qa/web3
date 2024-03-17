@@ -1,6 +1,14 @@
-import { render, screen, fireEvent, act, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import Unlock from "../app/wallet/components/Unlock";
 import Web3, { WebSocketProvider } from "web3";
+import userEvent from "@testing-library/user-event";
+
+function setup(jsx: JSX.Element) {
+  return {
+    user: userEvent.setup(),
+    ...render(jsx),
+  };
+}
 
 let provider: WebSocketProvider;
 let web3: Web3;
@@ -33,24 +41,18 @@ test("unlock wallet with mnemonic", async () => {
   const setWallet = jest.fn();
   const mnemonic = "myth like bonus scare over problem client lizard pioneer submit female collect";
 
-  render(<Unlock web3={web3} isLogged={false} onUnlock={(wallet) => setWallet(wallet)} />);
+  const { user } = setup(<Unlock web3={web3} isLogged={false} onUnlock={(wallet) => setWallet(wallet)} />);
 
   for (const [i, word] of mnemonic.split(" ").entries()) {
-    fireEvent.change(screen.getByPlaceholderText(`Word ${i + 1}`), {
-      target: { value: word },
-    });
+    await user.type(screen.getByPlaceholderText(`Word ${i + 1}`), word);
   }
 
-  fireEvent.change(screen.getByPlaceholderText("Passphrase"), {
-    target: { value: "secret" },
-  });
+  await user.type(screen.getByPlaceholderText("Passphrase"), "secret");
 
-  await act(async () =>
-    fireEvent.click(
-      screen.getByRole("button", {
-        name: /login/i,
-      })
-    )
+  await user.click(
+    screen.getByRole("button", {
+      name: /login/i,
+    })
   );
 
   await waitFor(async () => {
@@ -62,24 +64,18 @@ test("unlock wallet with incorrect mnemonic", async () => {
   const setWallet = jest.fn();
   const mnemonic = "myth like bonus scare over problem";
 
-  render(<Unlock web3={web3} isLogged={false} onUnlock={(wallet) => setWallet(wallet)} />);
+  const { user } = setup(<Unlock web3={web3} isLogged={false} onUnlock={(wallet) => setWallet(wallet)} />);
 
   for (const [i, word] of mnemonic.split(" ").entries()) {
-    fireEvent.change(screen.getByPlaceholderText(`Word ${i + 1}`), {
-      target: { value: word },
-    });
+    await user.type(screen.getByPlaceholderText(`Word ${i + 1}`), word);
   }
 
-  fireEvent.change(screen.getByPlaceholderText("Passphrase"), {
-    target: { value: "secret" },
-  });
+  await user.type(screen.getByPlaceholderText("Passphrase"), "secret");
 
-  await act(async () =>
-    fireEvent.click(
-      screen.getByRole("button", {
-        name: /login/i,
-      })
-    )
+  await user.click(
+    screen.getByRole("button", {
+      name: /login/i,
+    })
   );
 
   expect(screen.getByRole("alert").innerText).toBe("Invalid mnemonic");
@@ -89,10 +85,11 @@ test("unlock wallet with incorrect mnemonic", async () => {
 test("paste mnemonic", async () => {
   const mnemonic = "myth like bonus scare over problem client lizard pioneer submit female collect";
 
-  render(<Unlock web3={web3} isLogged={false} onUnlock={() => {}} />);
+  const { user } = setup(<Unlock web3={web3} isLogged={false} onUnlock={() => {}} />);
 
-  fireEvent.paste(screen.getByPlaceholderText("Word 1"), {
-    clipboardData: { getData: () => mnemonic },
+  await user.click(screen.getByPlaceholderText("Word 1"));
+  await user.paste({
+    getData: () => mnemonic,
   });
 
   for (const [i, word] of mnemonic.split(" ").entries()) {
@@ -105,20 +102,16 @@ test("unlock wallet with passphrase", async () => {
 
   web3.eth.accounts.wallet?.create(1);
 
-  await act(async () => await web3.eth.accounts.wallet?.save("secret"));
+  await web3.eth.accounts.wallet?.save("secret");
 
-  render(<Unlock web3={web3} isLogged={true} onUnlock={(wallet) => setWallet(wallet)} />);
+  const { user } = setup(<Unlock web3={web3} isLogged={true} onUnlock={(wallet) => setWallet(wallet)} />);
 
-  fireEvent.change(screen.getByPlaceholderText("Passphrase"), {
-    target: { value: "secret" },
-  });
+  await user.type(screen.getByPlaceholderText("Passphrase"), "secret");
 
-  await act(async () =>
-    fireEvent.click(
-      screen.getByRole("button", {
-        name: /unlock/i,
-      })
-    )
+  await user.click(
+    screen.getByRole("button", {
+      name: /unlock/i,
+    })
   );
 
   await waitFor(async () => {
@@ -129,20 +122,16 @@ test("unlock wallet with passphrase", async () => {
 test("unlock wallet with incorrect passphrase", async () => {
   web3.eth.accounts.wallet?.create(1);
 
-  await act(async () => await web3.eth.accounts.wallet?.save("secret"));
+  await web3.eth.accounts.wallet?.save("secret");
 
-  render(<Unlock web3={web3} isLogged={true} onUnlock={() => {}} />);
+  const { user } = setup(<Unlock web3={web3} isLogged={true} onUnlock={() => {}} />);
 
-  fireEvent.change(screen.getByPlaceholderText("Passphrase"), {
-    target: { value: "incorrect" },
-  });
+  await user.type(screen.getByPlaceholderText("Passphrase"), "incorrect");
 
-  await act(async () =>
-    fireEvent.click(
-      screen.getByRole("button", {
-        name: /unlock/i,
-      })
-    )
+  await user.click(
+    screen.getByRole("button", {
+      name: /unlock/i,
+    })
   );
 
   expect(screen.getByRole("alert").innerText).toBe("Key derivation failed - possibly wrong password");
