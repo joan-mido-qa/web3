@@ -42,6 +42,15 @@ export default function Unlock({ web3, isLogged, onUnlock }: Props) {
 
   const getErrorMessage = (error: unknown) => (error instanceof Error ? error.message : String(error));
 
+  function setErrorMessage(err?: string) {
+    if (err) {
+      setError(err);
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+    }
+  }
+
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -65,7 +74,7 @@ export default function Unlock({ web3, isLogged, onUnlock }: Props) {
         await web3.eth.accounts.wallet.load(passphrase);
       }
     } catch (e) {
-      return setError(getErrorMessage(e));
+      return setErrorMessage(getErrorMessage(e));
     } finally {
       setPassphrase("");
     }

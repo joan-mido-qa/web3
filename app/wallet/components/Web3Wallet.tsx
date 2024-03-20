@@ -5,6 +5,7 @@ import Web3 from "web3";
 import Wallet from "web3-eth-accounts";
 import { GrTransaction } from "react-icons/gr";
 import { GrDocumentUpload } from "react-icons/gr";
+import ErrorMessage from "./ErrorMessage";
 
 interface Props {
   web3: Web3;
@@ -16,6 +17,7 @@ export default function Web3Wallet({ web3, wallet }: Props) {
 
   const [balance, setBalance] = useState<string>("0");
   const [account, setAccount] = useState<Wallet.Web3Account>(wallet.get(0)!);
+  const [error, setError] = useState("");
 
   const prevBalanceRef = useRef("0");
 
@@ -48,12 +50,21 @@ export default function Web3Wallet({ web3, wallet }: Props) {
     updateBalance();
   }, [updateBalance]);
 
+  function setErrorMessage(err?: string) {
+    if (err) {
+      setError(err);
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+    }
+  }
+
   const fromAddress = (address: string) => wallet.find((acc) => acc.address == address)!;
 
   return (
     <>
       <div className='flex flex-col text-white justify-around items-center h-[250px]'>
-        <span id='eth-balance' className='text-5xl'>
+        <span data-testid='eth-balance' className='text-5xl'>
           {balance} ETH
         </span>
         <select
@@ -68,7 +79,7 @@ export default function Web3Wallet({ web3, wallet }: Props) {
         <div className='flex'>
           <div className='flex flex-col items-center mx-2'>
             <button
-              id='send-button'
+              data-testid='send-button'
               onClick={() => setDisplaySend(true)}
               className='bg-blue-500 hover:bg-blue-600 text-white text-l p-2 m-2 rounded-full'>
               <GrTransaction />
@@ -83,7 +94,17 @@ export default function Web3Wallet({ web3, wallet }: Props) {
           </div>
         </div>
       </div>
-      {isSendDisplayed ? <SendModal web3={web3} fromAccount={account} onSend={() => setDisplaySend(false)} /> : null}
+      {isSendDisplayed ? (
+        <SendModal
+          web3={web3}
+          fromAccount={account}
+          onSend={(err) => {
+            setDisplaySend(false);
+            setErrorMessage(err);
+          }}
+        />
+      ) : null}
+      {error ? <ErrorMessage message={error} /> : null}
     </>
   );
 }
@@ -91,36 +112,42 @@ export default function Web3Wallet({ web3, wallet }: Props) {
 interface SendProps {
   web3: Web3;
   fromAccount: Wallet.Web3Account;
-  onSend: () => void;
+  onSend: (err?: string) => void;
 }
 
-function SendModal({ web3, fromAccount, onSend }: SendProps) {
+export function SendModal({ web3, fromAccount, onSend }: SendProps) {
   const [toAdress, setAdress] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
+
+  const getErrorMessage = (error: unknown) => (error instanceof Error ? error.message : String(error));
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const nonce = await web3.eth.getTransactionCount(fromAccount.address, "latest");
-    const gasPrice = await web3.eth.getGasPrice();
+    try {
+      const nonce = await web3.eth.getTransactionCount(fromAccount.address, "latest");
+      const gasPrice = await web3.eth.getGasPrice();
 
-    const transaction = {
-      to: toAdress,
-      value: web3.utils.toWei(amount!, "ether"),
-      gasPrice: gasPrice,
-      nonce: nonce,
-    };
+      const transaction = {
+        to: toAdress,
+        value: web3.utils.toWei(amount!, "ether"),
+        gasPrice: gasPrice,
+        nonce: nonce,
+      };
 
-    const gas = await web3.eth.estimateGas(transaction);
+      const gas = await web3.eth.estimateGas(transaction);
 
-    const signedTransaction = await fromAccount.signTransaction({
-      ...transaction,
-      gas,
-    });
+      const signedTransaction = await fromAccount.signTransaction({
+        ...transaction,
+        gas,
+      });
 
-    await web3.eth.sendSignedTransaction(signedTransaction.rawTransaction);
+      await web3.eth.sendSignedTransaction(signedTransaction.rawTransaction);
 
-    onSend();
+      onSend();
+    } catch (e) {
+      onSend(getErrorMessage(e));
+    }
   }
 
   return (
