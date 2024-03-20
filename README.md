@@ -12,7 +12,7 @@ $ bun install
 
 Install pre-commit:
 
-```bash
+```shell
 $ python -m venv venv
 $ venv/bib/activate
 $ pip install pre-commit
@@ -21,12 +21,24 @@ $ pre-commit install
 
 Run Ganache + Server:
 
-```bash
-$ docker compose up
+```shell
+$ docker compose up ganache
+$ bun run dev
 ```
 
-Run the end-to-end:
+## Test
 
-```bash
+### Unit
+
+```shell
+$ docker compose up ganache
+$ bun run jest
+```
+
+### End-to-End
+
+```shell
+$ bun run playwright install
+$ docker compose up --build
 $ bun run playwright test
 ```
