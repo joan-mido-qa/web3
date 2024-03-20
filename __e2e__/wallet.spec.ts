@@ -9,7 +9,7 @@ const getAccountBalance = (page: Page, address: string) =>
     .selectOption({ value: address })
     // Wait update Account Balance
     .then(async () => await new Promise((resolve) => setTimeout(resolve, 5000)))
-    .then(async () => await page.locator("[id=eth-balance]").innerText())
+    .then(async () => await page.locator("[data-testid=eth-balance]").innerText())
     .then((balance) => toNumber(balance));
 
 test("send a transaction", async ({ page }) => {
@@ -27,7 +27,7 @@ test("send a transaction", async ({ page }) => {
   const toInitBalance = await getAccountBalance(page, toAddress);
   const fromInitBalance = await getAccountBalance(page, fromAddress);
 
-  await page.locator("[id=send-button]").click();
+  await page.locator("[data-testid=send-button]").click();
   await page.getByPlaceholder("Address").fill(toAddress);
   await page.getByPlaceholder("Amount (Eth)").fill("1");
   await page.getByRole("button", { name: "Send" }).click();
@@ -36,7 +36,7 @@ test("send a transaction", async ({ page }) => {
   // the Gas fee.
 
   await expect
-    .poll(async () => toNumber(await page.locator("[id=eth-balance]").innerText()), {
+    .poll(async () => toNumber(await page.locator("[data-testid=eth-balance]").innerText()), {
       intervals: [1000],
       timeout: 60000,
     })
