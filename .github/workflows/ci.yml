@@ -37,6 +37,7 @@ jobs:
 
       - name: Bun | Install
         run: |
+          cd packages/nextjs
           bun install --frozen-lockfile
 
       - name: Docker | Setup
@@ -45,10 +46,11 @@ jobs:
       - name: Docker Compose | Up
         uses: isbang/compose-action@v1.5.1
         with:
-          compose-file: docker-compose.yaml
+          compose-file: packages/nextjs/docker-compose.yaml
 
       - name: Playwright | Run Tests
         run: |
+          cd packages/nextjs
           bun run playwright install --with-deps ${{ matrix.browser }}
           bun run playwright test --project ${{ matrix.browser }}
 
@@ -57,7 +59,7 @@ jobs:
         if: always()
         with:
           name: playwright-report-${{ matrix.browser }}
-          path: playwright-report/
+          path: packages/nextjs/playwright-report/
           retention-days: 1
 
   test:
@@ -72,6 +74,7 @@ jobs:
 
       - name: Bun | Install
         run: |
+          cd packages/nextjs
           bun install --frozen-lockfile
 
       - name: Docker | Setup
@@ -80,10 +83,11 @@ jobs:
       - name: Docker Compose | Up
         uses: isbang/compose-action@v1.5.1
         with:
-          compose-file: docker-compose.yaml
+          compose-file: packages/nextjs/docker-compose.yaml
           services: |
             ganache
 
       - name: Jest | Test
         run: |
+          cd packages/nextjs
           bun run jest
