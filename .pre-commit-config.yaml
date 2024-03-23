@@ -16,7 +16,7 @@ repos:
     hooks:
       - id: next-lint
         name: next lint
-        entry: next lint --fix --max-warnings 0 --dir .
+        entry: next lint packages/nextjs --fix --max-warnings 0 --dir .
         language: node
         pass_filenames: false
         additional_dependencies:

@@ -1,7 +1,0 @@
-{
-    "name": "web3",
-    "private": true,
-    "workspaces": [
-      "packages/*"
-    ]
-  }
