@@ -20,11 +20,32 @@ repos:
         language: node
         pass_filenames: false
         additional_dependencies:
-          [
-            "next@14.1.0",
-            "eslint-plugin-prettier@5.1.3",
-            "eslint-config-prettier@9.1.0",
-            "typescript@5",
-            "@types/react@18",
-            "@types/node@20",
-          ]
+          - next
+          - eslint-plugin-prettier
+          - eslint-config-prettier
+          - typescript
+          - "@types/react"
+          - "@types/node"
+  - repo: local
+    hooks:
+      - id: solhint
+        name: solhint
+        entry: solhint packages/hardhat/contracts/**/*.sol --config packages/hardhat/.solhint.json
+        language: node
+        pass_filenames: false
+        additional_dependencies: ["solhint@4.5.2"]
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint
+        entry: eslint packages/hardhat --fix --max-warnings 0
+        language: node
+        pass_filenames: false
+        additional_dependencies:
+          - eslint
+          - eslint-config-prettier
+          - eslint-plugin-prettier
+          - "@typescript-eslint/parser"
+          - "@typescript-eslint/eslint-plugin"
+          - "@types/node"
+          - typescript

@@ -41,3 +41,13 @@ next-env.d.ts
 
 # python
 venv
+
+typechain
+typechain-types
+
+# Hardhat files
+cache
+artifacts
+
+# Depyloments
+deployments/*

@@ -62,8 +62,8 @@ jobs:
           path: packages/nextjs/playwright-report/
           retention-days: 1
 
-  test:
-    name: "Test"
+  nextjs-test:
+    name: NextJS Test
     runs-on: ubuntu-latest
     steps:
       - name: Git | Checkout
@@ -91,3 +91,23 @@ jobs:
         run: |
           cd packages/nextjs
           bun run jest
+
+  hardhat-test:
+    name: Hardhat Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git | Checkout
+        uses: actions/checkout@v4
+
+      - name: Bun | Setup
+        uses: oven-sh/setup-bun@v1
+
+      - name: Bun | Install
+        run: |
+          cd packages/hardhat
+          bun install --frozen-lockfile
+
+      - name: Hardhat | Test
+        run: |
+          cd packages/hardhat
+          bun run hardhat test
