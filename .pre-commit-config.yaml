@@ -34,12 +34,13 @@ repos:
         language: node
         pass_filenames: false
         additional_dependencies: ["solhint@4.5.2"]
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.56.0
+  - repo: local
     hooks:
       - id: eslint
-        files: \.[jt]sx?$
-        types: [file]
+        name: eslint
+        entry: eslint packages/hardhat --fix --max-warnings 0
+        language: node
+        pass_filenames: false
         additional_dependencies:
           - eslint
           - eslint-config-prettier
@@ -48,4 +49,3 @@ repos:
           - "@typescript-eslint/eslint-plugin"
           - "@types/node"
           - typescript
-        args: ["packages/hardhat"]
