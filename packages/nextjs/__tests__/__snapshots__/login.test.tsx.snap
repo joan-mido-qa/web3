@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders mnemonic login page unchanged 1`] = `
+exports[`Login With Mnemonic Should render mnemonic login page unchanged 1`] = `
 <div>
   <div
     class="text-white flex flex-col items-center justify-center"
@@ -98,7 +98,7 @@ exports[`renders mnemonic login page unchanged 1`] = `
     <input
       class="py-2 px-4 bg-gray-800 text-white rounded-md focus:outline-none"
       placeholder="Passphrase"
-      type="text"
+      type="password"
       value=""
     />
     <button
@@ -111,7 +111,7 @@ exports[`renders mnemonic login page unchanged 1`] = `
 </div>
 `;
 
-exports[`renders passphrase login page unchanged 1`] = `
+exports[`Login With Passphrase Should render passphrase login page unchanged 1`] = `
 <div>
   <div
     class="justify-center items-center flex fixed inset-0 z-50 outline-none focus:outline-none"
@@ -122,7 +122,7 @@ exports[`renders passphrase login page unchanged 1`] = `
       <input
         class="p-3 m-1 bg-gray-800 text-white rounded-md focus:outline-none"
         placeholder="Passphrase"
-        type="text"
+        type="password"
         value=""
       />
       <button
