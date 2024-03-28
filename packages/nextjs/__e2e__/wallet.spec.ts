@@ -12,7 +12,7 @@ const getAccountBalance = (page: Page, address: string) =>
     .then(async () => await page.locator("[data-testid=eth-balance]").innerText())
     .then((balance) => toNumber(balance));
 
-describe("Wallet", () => {
+test.describe("Wallet", () => {
   test("Send ETH to address", async ({ page }) => {
     const [fromAddress, toAddress] = accounts.sort(() => 0.5 - Math.random()).slice(0, 2);
 

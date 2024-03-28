@@ -13,7 +13,7 @@ const getAccounts = (page: Page) =>
         .then((accs) => toLowerSorted(accs))
     );
 
-describe("Login", () => {
+test.describe("Login", () => {
   test("Use mnemonic and passphrase to save Wallet", async ({ page }) => {
     await page.goto("/login");
 
