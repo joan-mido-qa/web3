@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders error message component unchanged 1`] = `
+exports[`Error Message Should render error message component unchanged 1`] = `
 <div>
   <div
     class="absolute bottom-5 left-5 bg-red-100 border-l-4 border-red-500 text-red-700 p-4"

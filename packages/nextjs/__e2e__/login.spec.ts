@@ -13,33 +13,39 @@ const getAccounts = (page: Page) =>
         .then((accs) => toLowerSorted(accs))
     );
 
-test("use mnemonic and passphrase to login", async ({ page }) => {
-  await page.goto("/wallet");
+test.describe("Login", () => {
+  test("Use mnemonic and passphrase to save Wallet", async ({ page }) => {
+    await page.goto("/login");
 
-  for (const [i, word] of mnemonic.split(" ").entries()) {
-    await page.getByPlaceholder(`Word ${i + 1}`, { exact: true }).fill(word);
-  }
+    for (const [i, word] of mnemonic.split(" ").entries()) {
+      await page.getByPlaceholder(`Word ${i + 1}`, { exact: true }).fill(word);
+    }
 
-  await page.getByPlaceholder("Passphrase").fill("");
-  await page.getByRole("button", { name: "Login" }).click();
+    await page.getByPlaceholder("Passphrase").fill("");
+    await page.getByRole("button", { name: "Login" }).click();
 
-  expect(await getAccounts(page)).toEqual(toLowerSorted(accounts));
-});
+    await expect(page).toHaveURL(/\/wallet/);
 
-test("use passphrase to login", async ({ page }) => {
-  await page.goto("/wallet");
+    expect(await getAccounts(page)).toEqual(toLowerSorted(accounts));
+  });
 
-  for (const [i, word] of mnemonic.split(" ").entries()) {
-    await page.getByPlaceholder(`Word ${i + 1}`, { exact: true }).fill(word);
-  }
+  test("Use passphrase to unlock when Wallet is already saved", async ({ page }) => {
+    await page.goto("/wallet");
 
-  await page.getByPlaceholder("Passphrase").fill("secure-password");
-  await page.getByRole("button", { name: "Login" }).click();
+    for (const [i, word] of mnemonic.split(" ").entries()) {
+      await page.getByPlaceholder(`Word ${i + 1}`, { exact: true }).fill(word);
+    }
 
-  await page.reload({ timeout: 50000 });
+    await page.getByPlaceholder("Passphrase").fill("secure-password");
+    await page.getByRole("button", { name: "Login" }).click();
 
-  await page.getByPlaceholder("Passphrase").fill("secure-password");
-  await page.getByRole("button", { name: "Unlock" }).click();
+    await page.reload({ timeout: 50000 });
 
-  expect(await getAccounts(page)).toEqual(toLowerSorted(accounts));
+    await page.getByPlaceholder("Passphrase").fill("secure-password");
+    await page.getByRole("button", { name: "Unlock" }).click();
+
+    await expect(page).toHaveURL(/\/wallet/);
+
+    expect(await getAccounts(page)).toEqual(toLowerSorted(accounts));
+  });
 });

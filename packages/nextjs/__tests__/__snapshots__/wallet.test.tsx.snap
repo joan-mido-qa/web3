@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders send modal unchanged 1`] = `
+exports[`Wallet Should render send modal unchanged 1`] = `
 <div>
   <div
     class="justify-center items-center flex fixed inset-0 z-50 outline-none focus:outline-none"
@@ -34,7 +34,7 @@ exports[`renders send modal unchanged 1`] = `
 </div>
 `;
 
-exports[`renders wallet page unchanged 1`] = `
+exports[`Wallet Should render wallet page unchanged 1`] = `
 <div>
   <div
     class="flex flex-col text-white justify-around items-center h-[250px]"
