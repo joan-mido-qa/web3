@@ -14,7 +14,7 @@ const getAccounts = (page: Page) =>
     );
 
 test.describe("Login", () => {
-  test("Use mnemonic and passphrase to save Wallet", async ({ page }) => {
+  test("Use Mnemonic and Passphrase to save Wallet", async ({ page }) => {
     await page.goto("/login");
 
     for (const [i, word] of mnemonic.split(" ").entries()) {
@@ -29,7 +29,7 @@ test.describe("Login", () => {
     expect(await getAccounts(page)).toEqual(toLowerSorted(accounts));
   });
 
-  test("Use passphrase to unlock when Wallet is already saved", async ({ page }) => {
+  test("Use Passphrase to unlock when Wallet is already saved", async ({ page }) => {
     await page.goto("/wallet");
 
     for (const [i, word] of mnemonic.split(" ").entries()) {

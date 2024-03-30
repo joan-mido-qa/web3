@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Login With Mnemonic Should render mnemonic login page unchanged 1`] = `
+exports[`Login With Mnemonic Should render Login page unchanged 1`] = `
 <div>
   <div
     class="text-white flex flex-col items-center justify-center"
@@ -111,7 +111,7 @@ exports[`Login With Mnemonic Should render mnemonic login page unchanged 1`] = `
 </div>
 `;
 
-exports[`Login With Passphrase Should render passphrase login page unchanged 1`] = `
+exports[`Login With Passphrase Should render Login page unchanged 1`] = `
 <div>
   <div
     class="justify-center items-center flex fixed inset-0 z-50 outline-none focus:outline-none"

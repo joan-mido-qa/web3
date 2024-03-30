@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext } from "react";
-import Web3, { WebSocketProvider } from "web3";
+import Web3, { ContractAbi, WebSocketProvider } from "web3";
 import Wallet from "web3-eth-accounts";
 
 export class Web3Context {
@@ -28,6 +28,8 @@ export class Web3Context {
 
   public onNewBlock = () => this.web3.eth.subscribe("newBlockHeaders");
 
+  public getCode = (address: string) => this.web3.eth.getCode(address);
+
   public async sendSignedTransaction(account: Wallet.Web3Account, address: string, amount: string) {
     const nonce = await this.web3.eth.getTransactionCount(account.address, "latest");
     const gasPrice = await this.web3.eth.getGasPrice();
@@ -35,6 +37,36 @@ export class Web3Context {
     const transaction = {
       to: address,
       value: this.web3.utils.toWei(amount, "ether"),
+      gasPrice: gasPrice,
+      nonce: nonce,
+    };
+
+    const gas = await this.web3.eth.estimateGas(transaction);
+
+    const signedTransaction = await account.signTransaction({
+      ...transaction,
+      gas,
+    });
+
+    return this.web3.eth.sendSignedTransaction(signedTransaction.rawTransaction);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async deploySignedContratc(account: Wallet.Web3Account, abi: ContractAbi, bytecode: string, args: Array<any>) {
+    const nonce = await this.web3.eth.getTransactionCount(account.address, "latest");
+    const gasPrice = await this.web3.eth.getGasPrice();
+
+    const contract = new this.web3.eth.Contract(abi);
+
+    const data = contract
+      .deploy({
+        data: bytecode,
+        arguments: args,
+      })
+      .encodeABI();
+
+    const transaction = {
+      data: data,
       gasPrice: gasPrice,
       nonce: nonce,
     };

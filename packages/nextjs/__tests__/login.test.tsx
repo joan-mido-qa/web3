@@ -54,7 +54,7 @@ describe("Login", () => {
   });
 
   describe("With Mnemonic", () => {
-    test("Should render mnemonic login page unchanged", async () => {
+    test("Should render Login page unchanged", async () => {
       const { container } = setup(
         <Web3Connection.Provider value={web3}>
           <Login />
@@ -63,7 +63,7 @@ describe("Login", () => {
       expect(container).toMatchSnapshot();
     });
 
-    test("Should save Wallet when the mnemonic is valid", async () => {
+    test("Should save Wallet to LocalStorage", async () => {
       const mnemonic = "myth like bonus scare over problem client lizard pioneer submit female collect";
 
       const { user } = setup(
@@ -87,7 +87,7 @@ describe("Login", () => {
       expect(mockPush.push).toHaveBeenCalledWith("/wallet");
     });
 
-    test("Should not save Wallet when the mnemonic is incorrect", async () => {
+    test("Should expect correct Mnemonic", async () => {
       const mnemonic = "myth like bonus scare over problem";
 
       const { user } = setup(
@@ -139,7 +139,7 @@ describe("Login", () => {
       web3.clearWallet();
     });
 
-    test("Should render passphrase login page unchanged", async () => {
+    test("Should render Login page unchanged", async () => {
       const { container } = setup(
         <Web3Connection.Provider value={web3}>
           <Login />
@@ -148,7 +148,7 @@ describe("Login", () => {
       expect(container).toMatchSnapshot();
     });
 
-    test("Should unlock saved Wallet when the passphrase is correct", async () => {
+    test("Should load Wallet from LocalStorage", async () => {
       const { user } = setup(
         <Web3Connection.Provider value={web3}>
           <Login />
@@ -166,7 +166,7 @@ describe("Login", () => {
       expect(mockPush.push).toHaveBeenCalledWith("/wallet");
     });
 
-    test("Should not unlock saved Wallet when the passphrase is incorrect", async () => {
+    test("Should expect a correct Passphrase", async () => {
       const { user } = setup(
         <Web3Connection.Provider value={web3}>
           <Login />

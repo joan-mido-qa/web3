@@ -6,7 +6,7 @@ import { HDKey } from "@scure/bip32";
 import ErrorMessage from "@/components/ErrorMessage";
 import { Web3Connection } from "@/app/Web3Provider";
 import { useRouter } from "next/navigation";
-import { emptyMnemonic, getErrorMessage } from "@/app/utils";
+import { emptyMnemonic } from "@/app/utils";
 import Spinner from "@/components/Spinner";
 
 export default function Login() {
@@ -61,7 +61,7 @@ export default function Login() {
 
     await (isWalletSaved ? web3.loadWallet(passphrase) : saveWallet())
       .then(() => router.push("/wallet"))
-      .catch((e) => setErrorMessage(getErrorMessage(e)));
+      .catch((e) => setErrorMessage(e.message));
   }
 
   function onPaste(event: ClipboardEvent<HTMLInputElement>) {
