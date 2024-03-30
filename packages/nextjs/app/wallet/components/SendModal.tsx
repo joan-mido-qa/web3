@@ -3,15 +3,15 @@
 import { FormEvent, useState } from "react";
 import Wallet from "web3-eth-accounts";
 import { Web3Context } from "@/app/Web3Provider";
-import { getErrorMessage } from "@/app/utils";
 
 interface SendProps {
   web3: Web3Context;
   fromAccount: Wallet.Web3Account;
-  onSend: (err?: string) => void;
+  onError: (err: Error) => void;
+  onSend: () => void;
 }
 
-export default function SendModal({ web3, fromAccount, onSend }: SendProps) {
+export default function SendModal({ web3, fromAccount, onSend, onError }: SendProps) {
   const [toAdress, setAdress] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
 
@@ -21,7 +21,7 @@ export default function SendModal({ web3, fromAccount, onSend }: SendProps) {
     await web3
       .sendSignedTransaction(fromAccount, toAdress, amount)
       .then(() => onSend())
-      .catch((e) => onSend(getErrorMessage(e)));
+      .catch((e) => onError(e));
   }
 
   return (
@@ -45,7 +45,7 @@ export default function SendModal({ web3, fromAccount, onSend }: SendProps) {
             value={amount}
           />
           <button
-            className='bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-sm p-3 m-1 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'
+            className='bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-sm p-3 m-1 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150'
             type='submit'>
             Send
           </button>

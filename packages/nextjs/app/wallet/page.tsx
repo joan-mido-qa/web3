@@ -10,9 +10,11 @@ import { Web3Connection } from "@/app/Web3Provider";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/Spinner";
 import SendModal from "@/app/wallet/components/SendModal";
+import DeployModal from "@/app/wallet/components/DeployModal";
 
 export default function Web3Wallet() {
-  const [isSendDisplayed, setDisplaySend] = useState<boolean>(false);
+  const [isSendModalDisplayed, setDisplaySendModal] = useState<boolean>(false);
+  const [isDeployModalDisplayed, setDisplayDeployModal] = useState<boolean>(false);
 
   const web3 = useContext(Web3Connection)!;
 
@@ -95,28 +97,37 @@ export default function Web3Wallet() {
           <div className='flex flex-col items-center mx-2'>
             <button
               data-testid='send-button'
-              onClick={() => setDisplaySend(true)}
+              onClick={() => setDisplaySendModal(true)}
               className='bg-blue-500 hover:bg-blue-600 text-white text-l p-2 m-2 rounded-full'>
               <GrTransaction />
             </button>
             <span>Send</span>
           </div>
           <div className='flex flex-col items-center mx-2'>
-            <button className='bg-blue-500 hover:bg-blue-600 text-white text-l p-2 m-2 rounded-full'>
+            <button
+              data-testid='deploy-button'
+              onClick={() => setDisplayDeployModal(true)}
+              className='bg-blue-500 hover:bg-blue-600 text-white text-l p-2 m-2 rounded-full'>
               <GrDocumentUpload />
             </button>
-            <span>Upload</span>
+            <span>Deploy</span>
           </div>
         </div>
       </div>
-      {isSendDisplayed ? (
+      {isSendModalDisplayed ? (
         <SendModal
           web3={web3}
           fromAccount={account!}
-          onSend={(err) => {
-            setDisplaySend(false);
-            setErrorMessage(err);
-          }}
+          onError={(error) => setErrorMessage(error.message)}
+          onSend={() => setDisplaySendModal(false)}
+        />
+      ) : null}
+      {isDeployModalDisplayed ? (
+        <DeployModal
+          web3={web3}
+          fromAccount={account!}
+          onError={(error) => setErrorMessage(error.message)}
+          onAccept={() => setDisplayDeployModal(false)}
         />
       ) : null}
       {error ? <ErrorMessage message={error} /> : null}
