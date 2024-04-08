@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import Web3, { ContractAbi, WebSocketProvider } from "web3";
 import Wallet from "web3-eth-accounts";
 
@@ -103,7 +103,7 @@ export default function Web3Provider({ children }: Readonly<{ children: React.Re
 
   provider.on("error", () => {});
 
-  const web3 = new Web3Context(provider);
+  const [web3] = useState(new Web3Context(provider));
 
   return <Web3Connection.Provider value={web3}>{children}</Web3Connection.Provider>;
 }
